@@ -31,32 +31,16 @@ void show_histogram_text (vector <size_t> bins, size_t bin_count, const size_t M
         cout << axis_out;
         for (size_t j = 0; j < bins [i] * height; j++)
             {
-                cout << sign_out;
+                cout << &sign_out;
             }
         cout << endl;
 
     }
 }
 
-void find_minmax (const vector <double> numbers, double& min, double& max)
-{
-    max = numbers [0];
-    min = numbers [0];
-    for (double x : numbers)
-    {
-        if (x< min)
-            {
-                min = x;
-            }
-        else if (x > max)
-            {
-                max = x;
-            }
-    }
-}
 vector <size_t> make_histogram (const size_t number_count, const size_t bin_count, double max, double min, const vector <double> numbers)
 {
-    vector <size_t> bins;
+    vector <size_t> bins (bin_count);
     double bin_size = (max - min) / bin_count;
     for (size_t i = 0; i < number_count; i++)
         {
@@ -78,6 +62,24 @@ vector <size_t> make_histogram (const size_t number_count, const size_t bin_coun
         }
     return bins;
 }
+
+void find_minmax (const vector <double> numbers, double& min, double& max)
+{
+    max = numbers [0];
+    min = numbers [0];
+    for (double x : numbers)
+    {
+        if (x< min)
+            {
+                min = x;
+            }
+        else if (x > max)
+            {
+                max = x;
+            }
+    }
+}
+
 vector <double> input_numbers (size_t count)
 {
     vector < double > result(count);
@@ -103,7 +105,7 @@ int main ()
     double max, min;
     find_minmax (numbers, min, max);
     cout << min << "_" << max;
-    const auto bins = make_histogram (number_count, bin_count, max, min, numbers);
+    auto bins = make_histogram (number_count, bin_count, max, min, numbers);
 
     char indent_out [1], sign_out [1], axis_out [1];
     cerr << "Vvedite 1 simvol otstupa" << endl;
@@ -112,7 +114,7 @@ int main ()
     cin >> sign_out [0];
     cerr << "Vvedite 1 simvol dlya osi" << endl;
     cin >> axis_out [0];
-    show_histogram_text (bins, bin_count, MAX_size, indent_out[0], sign_out[0], axis_out[0]);
+    show_histogram_text (bins, bin_count, MAX_size, indent_out[0], sign_out[0], axis_out [0]);
     getchar ();
     return 0;
 }
